@@ -1,5 +1,7 @@
 package com.vfl.mutirao_solidario.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vfl.mutirao_solidario.service.JwtService;
 import com.vfl.mutirao_solidario.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -32,11 +35,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
         if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
+            if(!List.of("/user/signup", "/user/signin").contains(request.getRequestURI())){
+                response.setContentType("application/json");
+                response.getWriter().write(createErrorResponse("Invalid token"));
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
             filterChain.doFilter(request, response);
             return;
         }
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUserName(jwt);
+        try {
+            userEmail = jwtService.extractUserName(jwt);
+        }catch (Exception e){
+            response.setContentType("application/json");
+            response.getWriter().write(createErrorResponse(e.getMessage()));
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
         if (StringUtils.isNotEmpty(userEmail)
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(userEmail);
@@ -50,5 +67,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private String createErrorResponse(String msg) throws JsonProcessingException {
+        ErrorModel error = ErrorModel.builder().detail(msg).build();
+        return convertObjectToJson(ErrorResponseModel.builder().errors(List.of(error)).build());
+    }
+
+    public String convertObjectToJson(Object object) throws JsonProcessingException {
+        if (object == null) {
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
     }
 }

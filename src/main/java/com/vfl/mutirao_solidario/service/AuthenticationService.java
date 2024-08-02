@@ -26,6 +26,10 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.password()))
                 .phoneNumber(request.phoneNumber())
                 .build();
+
+        if(userRepository.findByEmail(request.email()).isPresent())
+            throw new IllegalArgumentException("Email already exists");
+
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
         return Token.builder().token(jwt).build();

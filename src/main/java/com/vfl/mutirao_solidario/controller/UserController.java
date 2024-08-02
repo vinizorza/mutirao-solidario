@@ -19,7 +19,7 @@ public class UserController {
     private final AuthenticationService authenticationService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/signin")
-    public ResponseEntity<Token> signin(@RequestBody Signin user){
+    public ResponseEntity<Token> signin(@Valid @RequestBody Signin user){
         return ResponseEntity.ok(authenticationService.signin(user));
     }
 

@@ -12,8 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponseModel {
-
-    public String type;
-
     public List<ErrorModel> errors;
 }

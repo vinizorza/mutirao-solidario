@@ -10,7 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorModel {
-    private String code;
     private String detail;
-    private String source;
 }
