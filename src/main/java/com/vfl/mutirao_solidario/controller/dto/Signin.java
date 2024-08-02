@@ -1,6 +1,6 @@
 package com.vfl.mutirao_solidario.controller.dto;
 
-public record SigninDTO(
+public record Signin(
         String email,
         String password
 ) {
