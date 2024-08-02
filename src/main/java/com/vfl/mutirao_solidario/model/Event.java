@@ -1,5 +1,6 @@
 package com.vfl.mutirao_solidario.model;
 
+import com.vfl.mutirao_solidario.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,4 +34,7 @@ public class Event {
 
     @Column(name = "MAX_VOLUNTEERS", nullable = false)
     private Integer maxVolunteers;
+
+    @Column(name = "STATUS")
+    private Status status;
 }

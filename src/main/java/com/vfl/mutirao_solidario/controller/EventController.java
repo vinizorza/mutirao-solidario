@@ -37,7 +37,7 @@ public class EventController {
         return null;
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id){
         return null;
     }
