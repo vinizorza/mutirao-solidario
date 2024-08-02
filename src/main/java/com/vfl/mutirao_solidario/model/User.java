@@ -1,6 +1,7 @@
 package com.vfl.mutirao_solidario.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,12 +24,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
+    @Column(unique = true)
     private String email;
 
+    @NotEmpty
     private String password;
 
+    @NotEmpty
     private String phoneNumber;
 
 

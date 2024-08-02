@@ -4,7 +4,8 @@ import com.vfl.mutirao_solidario.controller.dto.EventRequest;
 import com.vfl.mutirao_solidario.controller.dto.EventResponse;
 import com.vfl.mutirao_solidario.controller.dto.EventUpdate;
 import com.vfl.mutirao_solidario.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +13,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/event")
+@AllArgsConstructor
 public class EventController {
 
-//    List events by location, date
-//	- Create event
-//	- Update event
-//	- List event by user
-    @Autowired
-    EventService eventService;
+    final EventService eventService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<EventResponse> create(@RequestBody EventRequest event){
+    public ResponseEntity<Void> create(@RequestBody EventRequest event){
+
         eventService.create(event);
-        return null;
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(value = "/update")
@@ -38,7 +37,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id){
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         return null;
     }
 

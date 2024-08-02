@@ -4,13 +4,16 @@ import com.vfl.mutirao_solidario.controller.dto.Signin;
 import com.vfl.mutirao_solidario.controller.dto.Signup;
 import com.vfl.mutirao_solidario.controller.dto.Token;
 import com.vfl.mutirao_solidario.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/user")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final AuthenticationService authenticationService;
@@ -21,7 +24,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
-    public ResponseEntity<Token> signup(@RequestBody Signup user){
+    public ResponseEntity<Token> signup(@Valid @RequestBody Signup user){
         return ResponseEntity.ok(authenticationService.signup(user));
     }
 

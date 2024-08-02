@@ -24,6 +24,7 @@ public class AuthenticationService {
         var user = User.builder().name(request.name())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
+                .phoneNumber(request.phoneNumber())
                 .build();
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
