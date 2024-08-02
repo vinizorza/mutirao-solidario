@@ -18,27 +18,27 @@ public class EventController {
 
     final EventService eventService;
 
-    @PostMapping(value = "/create")
+    @RequestMapping(method = RequestMethod.POST, value = "/create")
     public ResponseEntity<Void> create(@RequestBody EventRequest event){
-
         eventService.create(event);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping(value = "/update")
-    public EventResponse update(@RequestBody EventUpdate event){
-        return null;
+    @RequestMapping(method = RequestMethod.PUT, value = "/update")
+    public ResponseEntity<Void> update(@RequestBody EventUpdate event){
+        eventService.update(event);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public List<EventResponse> getAllEvents(){
-        return null;
+        return eventService.getAllEvents();
     }
 
-    @DeleteMapping("/{id}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-        return null;
+        eventService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
