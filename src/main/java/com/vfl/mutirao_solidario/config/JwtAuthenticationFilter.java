@@ -35,12 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
         if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")) {
-            if(!List.of("/user/signup", "/user/signin").contains(request.getRequestURI())){
-                response.setContentType("application/json");
-                response.getWriter().write(createErrorResponse("Invalid token"));
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
             filterChain.doFilter(request, response);
             return;
         }
