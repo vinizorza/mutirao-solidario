@@ -3,6 +3,7 @@ package com.vfl.mutirao_solidario.service;
 import com.vfl.mutirao_solidario.controller.dto.EventRequest;
 import com.vfl.mutirao_solidario.controller.dto.EventResponse;
 import com.vfl.mutirao_solidario.controller.dto.EventUpdate;
+import com.vfl.mutirao_solidario.controller.dto.UserResponse;
 import com.vfl.mutirao_solidario.enums.Status;
 import com.vfl.mutirao_solidario.model.Event;
 import com.vfl.mutirao_solidario.model.User;
@@ -55,7 +56,10 @@ public class EventService {
 
         return events.stream().map(event -> new EventResponse(
                         event.getId(),
-                        event.getOrganizer(),
+                        new UserResponse(event.getOrganizer().getId(),
+                                event.getOrganizer().getName(),
+                                event.getOrganizer().getEmail(),
+                                event.getOrganizer().getPhoneNumber()),
                         event.getTitle(),
                         event.getDescription(),
                         event.getLatitude(),
@@ -73,16 +77,18 @@ public class EventService {
     }
 
     public void update(EventUpdate event, Long id) {
-//        eventRepository.save(Event.builder()
-//                .id(id)
-//                .organizerId(event.organizerId())
-//                .title(event.title())
-//                .description(event.description())
-//                .minVolunteers(event.minVolunteers())
-//                .maxVolunteers(event.maxVolunteers())
-//                .status(event.status())
-//                .date(event.date())
-//                .build());
+        eventRepository.save(Event.builder()
+                .id(id)
+                .organizer(User.builder().id(event.organizerId()).build())
+                .title(event.title())
+                .description(event.description())
+                .minVolunteers(event.minVolunteers())
+                .maxVolunteers(event.maxVolunteers())
+                .status(event.status())
+                .date(event.date())
+                .latitude(event.latitude())
+                .longitude(event.longitude())
+                .build());
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {

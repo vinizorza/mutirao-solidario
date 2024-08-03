@@ -11,6 +11,8 @@ public record EventUpdate(
         String location,
         Integer minVolunteers,
         Integer maxVolunteers,
-        Status status ,
-        LocalDateTime date) {
+        Status status,
+        LocalDateTime date,
+        Double latitude,
+        Double longitude) {
 }
