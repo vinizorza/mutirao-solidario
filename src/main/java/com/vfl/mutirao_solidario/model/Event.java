@@ -4,6 +4,8 @@ import com.vfl.mutirao_solidario.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,4 +39,7 @@ public class Event {
 
     @Column(name = "STATUS")
     private Status status;
+
+    @Column(name = "DATE", nullable = false)
+    private LocalDateTime date;
 }

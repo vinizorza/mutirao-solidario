@@ -7,7 +7,6 @@ import com.vfl.mutirao_solidario.enums.Status;
 import com.vfl.mutirao_solidario.model.Event;
 import com.vfl.mutirao_solidario.repository.EventRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +26,7 @@ public class EventService {
                 .minVolunteers(event.minVolunteers())
                 .maxVolunteers(event.maxVolunteers())
                 .status(Status.ORGANIZING)
+                .date(event.date())
                 .build());
     }
 
@@ -40,7 +40,8 @@ public class EventService {
                         event.getLocation(),
                         event.getMinVolunteers(),
                         event.getMaxVolunteers(),
-                        event.getStatus()))
+                        event.getStatus(),
+                        event.getDate()))
                 .collect(Collectors.toList());
     }
 
@@ -58,6 +59,7 @@ public class EventService {
                 .minVolunteers(event.minVolunteers())
                 .maxVolunteers(event.maxVolunteers())
                 .status(event.status())
+                .date(event.date())
                 .build());
     }
 }

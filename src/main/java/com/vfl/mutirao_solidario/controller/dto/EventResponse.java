@@ -2,6 +2,8 @@ package com.vfl.mutirao_solidario.controller.dto;
 
 import com.vfl.mutirao_solidario.enums.Status;
 
+import java.time.LocalDateTime;
+
 public record EventResponse (
         Long id,
         Long organizerId,
@@ -10,5 +12,6 @@ public record EventResponse (
         String location,
         Integer minVolunteers,
         Integer maxVolunteers,
-        Status status){
+        Status status,
+        LocalDateTime date){
 }
