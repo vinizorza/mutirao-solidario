@@ -2,23 +2,42 @@ package com.vfl.mutirao_solidario.controller;
 
 import com.vfl.mutirao_solidario.controller.dto.RegistrationRequest;
 import com.vfl.mutirao_solidario.controller.dto.RegistrationResponse;
+import com.vfl.mutirao_solidario.enums.Status;
+import com.vfl.mutirao_solidario.service.RegistrationService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/registration")
+@AllArgsConstructor
 public class RegistrationController {
 
-    @PostMapping
-    public ResponseEntity<RegistrationResponse> joinEvent(@RequestBody RegistrationRequest registration){
-        return null;
+    private final RegistrationService registrationService;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> joinEvent(@RequestBody RegistrationRequest registration){
+        registrationService.joinEvent(registration);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id){
-        return null;
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+        registrationService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/byUserId/{userId}")
+    public List<RegistrationResponse> getRegistrationByUserId(@PathVariable("userId") Long userId){
+        return registrationService.getRegistrationByUserId(userId);
+    }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/byEventId/{eventId}")
+    public List<RegistrationResponse> getRegistrationByEventId(@PathVariable("eventId") Long eventId){
+        return registrationService.getRegistrationByEventId(eventId);
+    }
 
 }

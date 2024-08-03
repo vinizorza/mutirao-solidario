@@ -1,10 +1,9 @@
 package com.vfl.mutirao_solidario.model;
 
-import jakarta.persistence.Entity;
-
+import jakarta.persistence.*;
 import lombok.*;
 
-
+@Entity
 @Builder
 @Getter
 @Setter
@@ -12,9 +11,15 @@ import lombok.*;
 @NoArgsConstructor
 public class Registration {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long eventId;
+    @ManyToOne
+    @JoinColumn(name = "EVENT_ID", nullable = false)
+    private Event event;
 
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
 }
