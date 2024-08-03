@@ -3,13 +3,14 @@ package com.vfl.mutirao_solidario.controller;
 import com.vfl.mutirao_solidario.controller.dto.EventRequest;
 import com.vfl.mutirao_solidario.controller.dto.EventResponse;
 import com.vfl.mutirao_solidario.controller.dto.EventUpdate;
+import com.vfl.mutirao_solidario.enums.Status;
 import com.vfl.mutirao_solidario.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -35,9 +36,11 @@ public class EventController {
     public List<EventResponse> getAllEvents(@RequestParam (required = false) Double latitude,
                                             @RequestParam (required = false) Double longitude,
                                             @RequestParam (required = false) Long radius,
-                                            @RequestParam (required = false) LocalDate dateFrom,
-                                            @RequestParam (required = false) LocalDate dateTo){
-        return eventService.getAllEvents(latitude, longitude, radius, dateFrom, dateTo);
+                                            @RequestParam (required = false) LocalDateTime dateFrom,
+                                            @RequestParam (required = false) LocalDateTime dateTo,
+                                            @RequestParam (required = false) Long userId,
+                                            @RequestParam (required = false) List<Status> status){
+        return eventService.getAllEvents(latitude, longitude, radius, dateFrom, dateTo, userId, status);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

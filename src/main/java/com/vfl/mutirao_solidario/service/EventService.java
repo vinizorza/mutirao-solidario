@@ -10,7 +10,7 @@ import com.vfl.mutirao_solidario.repository.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,9 +39,21 @@ public class EventService {
                 .build());
     }
 
-    public List<EventResponse> getAllEvents(Double latitude, Double longitude, Long radius, LocalDate dateFrom, LocalDate dateTo) {
-        return eventRepository.findAll().stream()
-                .map(event -> new EventResponse(
+    public List<EventResponse> getAllEvents(Double latitude,
+                                            Double longitude,
+                                            Long radius,
+                                            LocalDateTime dateFrom,
+                                            LocalDateTime dateTo,
+                                            Long userId,
+                                            List<Status> status) {
+
+        List<Event> events = eventRepository.findEvents(userId, dateFrom , dateTo, status);
+
+        events = events.stream().filter(e -> radius == null ||
+                        distance(latitude, longitude, e.getLatitude(), e.getLongitude()) <= radius)
+                .toList();
+
+        return events.stream().map(event -> new EventResponse(
                         event.getId(),
                         event.getOrganizer(),
                         event.getTitle(),
@@ -71,5 +83,25 @@ public class EventService {
 //                .status(event.status())
 //                .date(event.date())
 //                .build());
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344;
+
+        return (dist);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
     }
 }
