@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -18,20 +19,22 @@ public class EventController {
 
     final EventService eventService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/create")
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> create(@RequestBody EventRequest event){
         eventService.create(event);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/update")
-    public ResponseEntity<Void> update(@RequestBody EventUpdate event){
-        eventService.update(event);
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody EventUpdate event, @PathVariable("id") Long id){
+        eventService.update(event, id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<EventResponse> getAllEvents(){
+    public List<EventResponse> getAllEvents(@RequestParam String location,
+                                            @RequestParam Date dateFrom,
+                                            @RequestParam Date dateTo){
         return eventService.getAllEvents();
     }
 

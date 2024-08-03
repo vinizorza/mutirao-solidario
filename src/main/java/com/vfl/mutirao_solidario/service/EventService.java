@@ -49,9 +49,9 @@ public class EventService {
         eventRepository.deleteById(id);
     }
 
-    public void update(EventUpdate event) {
+    public void update(EventUpdate event, Long id) {
         eventRepository.save(Event.builder()
-                .id(event.id())
+                .id(id)
                 .organizerId(event.organizerId())
                 .title(event.title())
                 .description(event.description())
