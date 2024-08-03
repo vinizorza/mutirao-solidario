@@ -6,7 +6,8 @@ public record EventRequest(
         Long organizerId,
         String title,
         String description,
-        String location,
+        Double latitude,
+        Double longitude,
         Integer minVolunteers,
         Integer maxVolunteers,
         LocalDateTime date) {

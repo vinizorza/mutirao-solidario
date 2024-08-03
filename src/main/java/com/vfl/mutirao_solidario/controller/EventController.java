@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,7 +20,7 @@ public class EventController {
     final EventService eventService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> create(@RequestBody EventRequest event){
+    public ResponseEntity<Void> create(@RequestBody EventRequest event) {
         eventService.create(event);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -32,10 +32,12 @@ public class EventController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<EventResponse> getAllEvents(@RequestParam String location,
-                                            @RequestParam Date dateFrom,
-                                            @RequestParam Date dateTo){
-        return eventService.getAllEvents();
+    public List<EventResponse> getAllEvents(@RequestParam Double latitude,
+                                            @RequestParam Double longitude,
+                                            @RequestParam Long radius,
+                                            @RequestParam LocalDate dateFrom,
+                                            @RequestParam LocalDate dateTo){
+        return eventService.getAllEvents(latitude, longitude, radius, dateFrom, dateTo);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

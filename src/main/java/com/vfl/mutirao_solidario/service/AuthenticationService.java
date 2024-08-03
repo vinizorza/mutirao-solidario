@@ -7,7 +7,9 @@ import com.vfl.mutirao_solidario.model.User;
 import com.vfl.mutirao_solidario.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,15 @@ public class AuthenticationService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
         return Token.builder().token(jwt).build();
+    }
+
+    public User getUserAuthenticated(){
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public void validateUser(Long id) throws BadCredentialsException {
+        if(!getUserAuthenticated().getId().equals(id))
+            throw new BadCredentialsException("User does not have the permission");
     }
 
 }

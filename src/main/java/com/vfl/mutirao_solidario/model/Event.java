@@ -19,8 +19,9 @@ public class Event {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "ORGANIZER_ID", nullable = false)
-    private Long organizerId;
+    @ManyToOne
+    @JoinColumn(name = "ORGANIZER_ID")
+    private User organizer;
 
     @Column(name = "TITLE", nullable = false)
     private String title;
@@ -28,8 +29,11 @@ public class Event {
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
-    @Column(name = "LOCATION", nullable = false)
-    private String location;
+    @Column(name = "LATITUDE", nullable = false)
+    private Double latitude;
+
+    @Column(name = "LONGITUDE", nullable = false)
+    private Double longitude;
 
     @Column(name = "MIN_VOLUNTEERS", nullable = false)
     private Integer minVolunteers;
