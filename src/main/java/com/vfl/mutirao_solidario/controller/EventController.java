@@ -32,11 +32,11 @@ public class EventController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<EventResponse> getAllEvents(@RequestParam Double latitude,
-                                            @RequestParam Double longitude,
-                                            @RequestParam Long radius,
-                                            @RequestParam LocalDate dateFrom,
-                                            @RequestParam LocalDate dateTo){
+    public List<EventResponse> getAllEvents(@RequestParam (required = false) Double latitude,
+                                            @RequestParam (required = false) Double longitude,
+                                            @RequestParam (required = false) Long radius,
+                                            @RequestParam (required = false) LocalDate dateFrom,
+                                            @RequestParam (required = false) LocalDate dateTo){
         return eventService.getAllEvents(latitude, longitude, radius, dateFrom, dateTo);
     }
 

@@ -24,10 +24,10 @@ public class EventService {
 
     public void create(EventRequest event) {
 
-        authenticationService.validateUser(event.organizer().getId());
+        authenticationService.validateUser(event.organizerId());
 
         eventRepository.save(Event.builder()
-                .organizer(User.builder().id(event.organizer().getId()).build())
+                .organizer(User.builder().id(event.organizerId()).build())
                 .title(event.title())
                 .description(event.description())
                 .minVolunteers(event.minVolunteers())
