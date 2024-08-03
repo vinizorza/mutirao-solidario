@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,10 +24,10 @@ public class EventService {
 
     public void create(EventRequest event) {
 
-        authenticationService.validateUser(event.organizerId());
+        authenticationService.validateUser(event.organizer().getId());
 
         eventRepository.save(Event.builder()
-                .organizer(User.builder().id(event.organizerId()).build())
+                .organizer(User.builder().id(event.organizer().getId()).build())
                 .title(event.title())
                 .description(event.description())
                 .minVolunteers(event.minVolunteers())
@@ -39,20 +40,19 @@ public class EventService {
     }
 
     public List<EventResponse> getAllEvents(Double latitude, Double longitude, Long radius, LocalDate dateFrom, LocalDate dateTo) {
-//        return eventRepository.findAll().stream()
-//                .map(event -> new EventResponse(
-//                        event.getId(),
-//                        event.getOrganizerId(),
-//                        event.getTitle(),
-//                        event.getDescription(),
-//                        event.getLocation(),
-//                        event.getMinVolunteers(),
-//                        event.getMaxVolunteers(),
-//                        event.getStatus(),
-//                        event.getDate()))
-//                .collect(Collectors.toList());
-
-        return null;
+        return eventRepository.findAll().stream()
+                .map(event -> new EventResponse(
+                        event.getId(),
+                        event.getOrganizer(),
+                        event.getTitle(),
+                        event.getDescription(),
+                        event.getLatitude(),
+                        event.getLongitude(),
+                        event.getMinVolunteers(),
+                        event.getMaxVolunteers(),
+                        event.getStatus(),
+                        event.getDate()))
+                .collect(Collectors.toList());
     }
 
 
