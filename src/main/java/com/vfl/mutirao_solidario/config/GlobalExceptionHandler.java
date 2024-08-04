@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,20 @@ import java.util.List;
 @Configuration
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(value = NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseModel handleException(NotFoundException e) {
+        e.printStackTrace();
+        return ErrorResponseModel
+                .builder()
+                .errors(List.of(ErrorModel.builder().detail(e.getMessage() + " not found").build()))
+                .build();
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseModel handleException(MethodArgumentNotValidException e) {
-        e.printStackTrace(); //TODO: Use log4j
+        e.printStackTrace();
         List<ErrorModel> errorModels = processErrors(e);
         return ErrorResponseModel
                 .builder()

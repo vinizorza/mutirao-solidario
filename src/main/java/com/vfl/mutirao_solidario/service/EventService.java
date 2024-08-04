@@ -43,6 +43,28 @@ public class EventService {
                 .build());
     }
 
+    public EventResponse getById(Long id) {
+
+        Event event = eventRepository.getById(id);
+
+        UserResponse userResponse = new UserResponse(event.getOrganizer().getId(),
+                event.getOrganizer().getName(),
+                event.getOrganizer().getEmail(),
+                event.getOrganizer().getPhoneNumber());
+
+        return new EventResponse(event.getId(),
+                userResponse, event.getTitle(),
+                event.getDescription(),
+                event.getLatitude(),
+                event.getLongitude(),
+                event.getMinVolunteers(),
+                event.getMaxVolunteers(),
+                registrationRepository.findByEventId(event.getId()).size(),
+                null,
+                event.getStatus(),
+                event.getDate());
+    }
+
     public List<EventResponse> getEventsByFilter(Double latitude,
                                                  Double longitude,
                                                  Long radius,

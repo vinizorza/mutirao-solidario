@@ -32,6 +32,11 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public ResponseEntity<EventResponse> getById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(eventService.getById(id));
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<EventResponse> getEventsByFilter(@RequestParam (required = true) Double latitude,
                                             @RequestParam (required = true) Double longitude,
