@@ -38,9 +38,9 @@ public class EventController {
                                             @RequestParam (defaultValue = "100") Long radius,
                                             @RequestParam (required = false) LocalDateTime dateFrom,
                                             @RequestParam (required = false) LocalDateTime dateTo,
-                                            @RequestParam (required = false) Long userId,
+                                            @RequestParam (required = false) Long organizerId,
                                             @RequestParam (required = false) List<Status> status){
-        return eventService.getEventsByFilter(latitude, longitude, radius, dateFrom, dateTo, userId, status);
+        return eventService.getEventsByFilter(latitude, longitude, radius, dateFrom, dateTo, organizerId, status);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

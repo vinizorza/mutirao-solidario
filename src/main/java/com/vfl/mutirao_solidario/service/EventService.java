@@ -48,10 +48,10 @@ public class EventService {
                                                  Long radius,
                                                  LocalDateTime dateFrom,
                                                  LocalDateTime dateTo,
-                                                 Long userId,
+                                                 Long organizerId,
                                                  List<Status> status) {
 
-        List<Event> events = eventRepository.findEvents(userId, dateFrom , dateTo, status);
+        List<Event> events = eventRepository.findEvents(organizerId, dateFrom , dateTo, status);
 
         events = events.stream().filter(e -> radius == null ||
                         distance(latitude, longitude, e.getLatitude(), e.getLongitude()) <= radius)
