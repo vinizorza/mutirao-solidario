@@ -14,7 +14,7 @@ public interface EventRepository extends JpaRepository<Event, Long>{
             "e.organizer.id = ?1 or ?1 is null and " +
             "e.date > ?2 or cast(?2 as date) is null and " +
             "e.date < ?3 or cast(?3 as date) is null and " +
-            "e.status = ?4 or ?4 is null")
+            "e.status in (?4) or ?4 is null")
     List<Event> findEvents(Long organizerId, LocalDateTime dateFrom, LocalDateTime dateTo, List<Status> status);
 
 }

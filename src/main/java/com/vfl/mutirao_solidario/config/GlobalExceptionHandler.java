@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         return ErrorResponseModel
                 .builder()
-                .errors(List.of(ErrorModel.builder().detail(e.getMessage() + " not found").build()))
+                .errors(List.of(ErrorModel.builder().detail(e.getMessage() + " não encontrado").build()))
                 .build();
     }
 
@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponseModel handleException(ExpiredJwtException e) {
         e.printStackTrace();
-        ErrorModel errorModel = ErrorModel.builder().detail(e.getMessage()).build();
+        ErrorModel errorModel = ErrorModel.builder().detail("Sessão expirada").build();
         return ErrorResponseModel
                 .builder()
                 .errors(List.of(errorModel))
@@ -91,7 +91,8 @@ public class GlobalExceptionHandler {
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             ErrorModel validationErrorModel = ErrorModel
                     .builder()
-                    .detail(fieldError.getField() + " " + fieldError.getDefaultMessage())
+                    .field(fieldError.getField())
+                    .detail(fieldError.getDefaultMessage())
                     .build();
             validationErrorModels.add(validationErrorModel);
         }

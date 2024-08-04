@@ -30,7 +30,7 @@ public class AuthenticationService {
                 .build();
 
         if(userRepository.findByEmail(request.email()).isPresent())
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email já existe");
 
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
@@ -42,7 +42,7 @@ public class AuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         var user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+                .orElseThrow(() -> new IllegalArgumentException("Email ou senha inválida"));
         var jwt = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwt).build();
@@ -54,7 +54,7 @@ public class AuthenticationService {
 
     public void validateUser(Long id) throws BadCredentialsException {
         if(!getUserAuthenticated().getId().equals(id))
-            throw new BadCredentialsException("User does not have the permission");
+            throw new BadCredentialsException("Usuário não possui permissão");
     }
 
 }
