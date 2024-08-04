@@ -2,7 +2,6 @@ package com.vfl.mutirao_solidario.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
 import static com.vfl.mutirao_solidario.config.Constants.FIELD_INVALID;
 import static com.vfl.mutirao_solidario.config.Constants.FIELD_REQUIRED;

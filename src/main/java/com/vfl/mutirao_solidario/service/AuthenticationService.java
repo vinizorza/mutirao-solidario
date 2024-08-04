@@ -34,7 +34,7 @@ public class AuthenticationService {
 
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
-        return AuthResponse.builder().name(userRepository.findByEmail(request.email()).get().getName())
+        return AuthResponse.builder()
                 .token(jwt).build();
     }
 
@@ -44,7 +44,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
-        return AuthResponse.builder().name(userRepository.findByEmail(request.email()).get().getName())
+        return AuthResponse.builder()
                 .token(jwt).build();
     }
 
