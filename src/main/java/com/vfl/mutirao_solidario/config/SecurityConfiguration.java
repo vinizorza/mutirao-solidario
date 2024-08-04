@@ -4,6 +4,7 @@ import com.vfl.mutirao_solidario.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -41,8 +42,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/user/**", "/v3/api-docs/**", "/swagger-ui/**")
-                        .permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers("/user/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/event").permitAll()
+                                .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
