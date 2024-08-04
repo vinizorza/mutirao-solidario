@@ -7,6 +7,7 @@ import com.vfl.mutirao_solidario.enums.Status;
 import com.vfl.mutirao_solidario.model.Event;
 import com.vfl.mutirao_solidario.model.User;
 import com.vfl.mutirao_solidario.repository.EventRepository;
+import com.vfl.mutirao_solidario.repository.RegistrationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -25,6 +26,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EventServiceTest {
+
+    @Mock
+    private RegistrationRepository registrationRepository;
 
     @Mock
     private EventRepository eventRepository;
