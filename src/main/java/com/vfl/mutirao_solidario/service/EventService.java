@@ -40,13 +40,13 @@ public class EventService {
                 .build());
     }
 
-    public List<EventResponse> getAllEvents(Double latitude,
-                                            Double longitude,
-                                            Long radius,
-                                            LocalDateTime dateFrom,
-                                            LocalDateTime dateTo,
-                                            Long userId,
-                                            List<Status> status) {
+    public List<EventResponse> getEventsByFilter(Double latitude,
+                                                 Double longitude,
+                                                 Long radius,
+                                                 LocalDateTime dateFrom,
+                                                 LocalDateTime dateTo,
+                                                 Long userId,
+                                                 List<Status> status) {
 
         List<Event> events = eventRepository.findEvents(userId, dateFrom , dateTo, status);
 
@@ -77,6 +77,9 @@ public class EventService {
     }
 
     public void update(EventUpdate event, Long id) {
+
+        authenticationService.validateUser(event.organizerId());
+
         eventRepository.save(Event.builder()
                 .id(id)
                 .organizer(User.builder().id(event.organizerId()).build())

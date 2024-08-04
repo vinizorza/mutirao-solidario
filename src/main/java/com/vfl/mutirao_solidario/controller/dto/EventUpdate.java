@@ -8,7 +8,6 @@ public record EventUpdate(
         Long organizerId,
         String title,
         String description,
-        String location,
         Integer minVolunteers,
         Integer maxVolunteers,
         Status status,
