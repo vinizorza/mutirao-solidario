@@ -13,6 +13,8 @@ public record EventResponse (
         Double longitude,
         Integer minVolunteers,
         Integer maxVolunteers,
+        Integer currentVolunteers,
+        Double distance,
         Status status,
         LocalDateTime date){
 }

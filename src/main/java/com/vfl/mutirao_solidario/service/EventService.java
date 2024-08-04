@@ -8,12 +8,13 @@ import com.vfl.mutirao_solidario.enums.Status;
 import com.vfl.mutirao_solidario.model.Event;
 import com.vfl.mutirao_solidario.model.User;
 import com.vfl.mutirao_solidario.repository.EventRepository;
+import com.vfl.mutirao_solidario.repository.RegistrationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +23,8 @@ public class EventService {
     private final EventRepository eventRepository;
 
     private final AuthenticationService authenticationService;
+
+    private final RegistrationRepository registrationRepository;
 
     public void create(EventRequest event) {
 
@@ -66,9 +69,12 @@ public class EventService {
                         event.getLongitude(),
                         event.getMinVolunteers(),
                         event.getMaxVolunteers(),
+                        registrationRepository.findByEventId(event.getId()).size(),
+                        distance(latitude, longitude, event.getLatitude(), event.getLongitude()),
                         event.getStatus(),
                         event.getDate()))
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparingDouble(EventResponse::distance))
+                .toList();
     }
 
 
