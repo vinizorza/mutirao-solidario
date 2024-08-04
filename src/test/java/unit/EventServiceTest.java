@@ -1,4 +1,4 @@
-package com.vfl.mutirao_solidario.service;
+package unit;
 
 import com.vfl.mutirao_solidario.controller.dto.EventRequest;
 import com.vfl.mutirao_solidario.controller.dto.EventResponse;
@@ -8,6 +8,8 @@ import com.vfl.mutirao_solidario.model.Event;
 import com.vfl.mutirao_solidario.model.User;
 import com.vfl.mutirao_solidario.repository.EventRepository;
 import com.vfl.mutirao_solidario.repository.RegistrationRepository;
+import com.vfl.mutirao_solidario.service.AuthenticationService;
+import com.vfl.mutirao_solidario.service.EventService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
