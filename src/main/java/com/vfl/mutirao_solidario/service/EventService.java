@@ -98,7 +98,7 @@ public class EventService {
                         event.getStatus(),
                         event.getDate()))
                 .sorted((latitude == null || longitude == null) ?
-                        Comparator.comparingDouble(EventResponse::id).reversed()
+                        Comparator.comparingLong(EventResponse::id).reversed()
                         : Comparator.comparingDouble(EventResponse::distance))
                 .toList();
     }
