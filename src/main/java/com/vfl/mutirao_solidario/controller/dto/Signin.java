@@ -12,7 +12,6 @@ public record Signin(
         @Email(message = FIELD_INVALID)
         String email,
         @NotBlank(message = FIELD_REQUIRED)
-        @Pattern(regexp = "^\\d{8,30}$", message = FIELD_INVALID)
         String password
 ) {
 }

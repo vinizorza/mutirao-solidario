@@ -14,7 +14,7 @@ public record Signup(
         @Email(message = FIELD_INVALID)
         String email,
         @NotBlank(message = FIELD_REQUIRED)
-        @Pattern(regexp = "^\\d{8,30}$", message = FIELD_INVALID)
+        @Pattern(regexp = "^.{8,30}$", message = FIELD_INVALID)
         String password,
         @NotBlank(message = FIELD_REQUIRED)
         @Pattern(regexp = "^\\d{8,12}$", message = FIELD_INVALID)
