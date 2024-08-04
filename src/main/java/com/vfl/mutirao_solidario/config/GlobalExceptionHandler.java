@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseModel handleException(MethodArgumentNotValidException e) {
+        e.printStackTrace(); //TODO: Use log4j
         List<ErrorModel> errorModels = processErrors(e);
         return ErrorResponseModel
                 .builder()
@@ -32,6 +33,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseModel handleException(IllegalArgumentException e) {
+        e.printStackTrace();
         ErrorModel errorModel = ErrorModel.builder().detail(e.getMessage()).build();
         return ErrorResponseModel
                 .builder()
@@ -42,6 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BadCredentialsException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponseModel handleException(BadCredentialsException e) {
+        e.printStackTrace();
         ErrorModel errorModel = ErrorModel.builder().detail(e.getMessage()).build();
         return ErrorResponseModel
                 .builder()
@@ -52,6 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ExpiredJwtException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponseModel handleException(ExpiredJwtException e) {
+        e.printStackTrace();
         ErrorModel errorModel = ErrorModel.builder().detail(e.getMessage()).build();
         return ErrorResponseModel
                 .builder()
@@ -62,6 +66,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponseModel handleException(Exception e) {
+        e.printStackTrace();
         ErrorModel errorModel = ErrorModel.builder().detail(e.getMessage()).build();
         return ErrorResponseModel
                 .builder()
@@ -70,6 +75,7 @@ public class GlobalExceptionHandler {
     }
 
     private List<ErrorModel> processErrors(MethodArgumentNotValidException e) {
+        e.printStackTrace();
         List<ErrorModel> validationErrorModels = new ArrayList<>();
         for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
             ErrorModel validationErrorModel = ErrorModel
