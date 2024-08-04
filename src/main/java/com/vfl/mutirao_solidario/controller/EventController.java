@@ -38,9 +38,9 @@ public class EventController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<EventResponse> getEventsByFilter(@RequestParam (required = true) Double latitude,
-                                            @RequestParam (required = true) Double longitude,
-                                            @RequestParam (defaultValue = "100") Long radius,
+    public List<EventResponse> getEventsByFilter(@RequestParam (required = false) Double latitude,
+                                            @RequestParam (required = false) Double longitude,
+                                            @RequestParam (required = false) Long radius,
                                             @RequestParam (required = false) LocalDateTime dateFrom,
                                             @RequestParam (required = false) LocalDateTime dateTo,
                                             @RequestParam (required = false) Long organizerId,

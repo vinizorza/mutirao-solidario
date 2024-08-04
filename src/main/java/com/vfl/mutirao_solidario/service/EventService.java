@@ -75,9 +75,10 @@ public class EventService {
 
         List<Event> events = eventRepository.findEvents(organizerId, dateFrom , dateTo, status);
 
-        events = events.stream().filter(e -> radius == null ||
-                        distance(latitude, longitude, e.getLatitude(), e.getLongitude()) <= radius)
-                .toList();
+        if(latitude != null && longitude != null && radius != null)
+            events = events.stream().filter(e ->
+                            distance(latitude, longitude, e.getLatitude(), e.getLongitude()) <= radius)
+                    .toList();
 
         return events.stream().map(event -> new EventResponse(
                         event.getId(),
@@ -92,10 +93,13 @@ public class EventService {
                         event.getMinVolunteers(),
                         event.getMaxVolunteers(),
                         registrationRepository.findByEventId(event.getId()).size(),
-                        distance(latitude, longitude, event.getLatitude(), event.getLongitude()),
+                        (latitude == null || longitude == null) ? null :
+                                distance(latitude, longitude, event.getLatitude(), event.getLongitude()),
                         event.getStatus(),
                         event.getDate()))
-                .sorted(Comparator.comparingDouble(EventResponse::distance))
+                .sorted((latitude == null || longitude == null) ?
+                        Comparator.comparingDouble(EventResponse::id).reversed()
+                        : Comparator.comparingDouble(EventResponse::distance))
                 .toList();
     }
 
